@@ -14,11 +14,13 @@ import { useRouter } from 'next/navigation';
 export default function EditBookForm({ user, isView }: { user: IUserTable; isView: boolean }) {
 	const [photoUrl, setPhotoUrl] = useState<string>(user.photoUrl);
 	const [errorImgUrl, setErrorImgUrl] = useState(false);
+	const [isBanned, setIsBanned] = useState(user.isBanned);
 	const router = useRouter();
 
 	const handlerSubmit = async (values: IUserTable) => {
 		const userEdit = {
 			...values,
+			isBanned,
 			photoUrl,
 		};
 
@@ -187,30 +189,61 @@ export default function EditBookForm({ user, isView }: { user: IUserTable; isVie
 						{/* user Confirmed */}
 						<div className=' mb-4 flex flex-col gap-4'>
 							{/* Mail Confirmed */}
-							<div className='flex flex-row  justify-between max-w-48'>
+							<div className='flex flex-row items-center  justify-between w-fit'>
 								<label
 									htmlFor='isConfirmed'
-									className='mb-2 block text-sm font-medium'
+									className=' text-sm font-medium flex items-center'
 								>
 									Correo confirmado
 								</label>
-								<p className='text-gray-500'>
+								<p className='text-gray-500 ml-14'>
 									{user.isConfirmed ? 'Si' : 'No'}
 								</p>
 							</div>
 							{/* user Baneado */}
-							<div className='flex flex-row items-center justify-between max-w-48'>
+							<div className='flex flex-row items-center justify-between w-fit'>
 								<label
 									htmlFor='isBanned'
-									className='mb-2 block text-sm font-medium'
+									className=' block text-sm font-medium'
 								>
-									{!isView ? 'Usuario Baneado' : 'Banear Usuario'}
+									{isView ? 'Usuario Baneado' : 'Banear Usuario'}
 								</label>
+
 								<div>
 									{!isView ? (
-										<Field type='checkbox' name='isBanned' id='isBanned' />
+										<div className='flex flex-row items-center gap-4 ml-20'>
+											<p className='text-gray-500'>
+												{user.isBanned ? 'Si' : 'No'}
+											</p>
+											<button
+												className=''
+												type='button'
+												onClick={() => {
+													const res = confirm(
+														`¿Estás seguro de que quieres ${
+															isBanned ? 'desbanear' : 'banear'
+														} el usuario?`,
+													);
+													if (res) {
+														setIsBanned(!isBanned);
+													} else {
+														return;
+													}
+												}}
+											>
+												{isBanned ? (
+													<span className='rounded-md border px-2 py-1 bg-green-700 text-white'>
+														Desbanear Usuario
+													</span>
+												) : (
+													<span className='rounded-md border px-2 py-1 bg-red-700 text-white'>
+														Banear Usuario
+													</span>
+												)}
+											</button>
+										</div>
 									) : (
-										<p className='text-gray-500'>
+										<p className='text-gray-500 ml-16'>
 											{user.isBanned ? 'Si' : 'No'}
 										</p>
 									)}
