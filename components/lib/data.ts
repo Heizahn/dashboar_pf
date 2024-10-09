@@ -67,7 +67,7 @@ export async function fetchGetBookById(id: string) {
 			Authorization: `Bearer ${token}`,
 		},
 	});
-	console.log(data);
+
 	const book = await data.json();
 	return book;
 }

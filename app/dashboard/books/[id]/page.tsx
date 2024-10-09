@@ -8,7 +8,6 @@ export default async function Page({ params }: { params: { id: string } }) {
 
 	const book = await fetchGetBookById(id);
 	const categories = await fetchGetCategories();
-	console.log(book);
 
 	if (!book) {
 		notFound();

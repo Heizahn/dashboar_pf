@@ -9,7 +9,6 @@ import * as yup from 'yup';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUserContext } from '../context/user-context';
-import jwt, { JwtPayload } from 'jsonwebtoken';
 
 const loginSchema = yup.object({
 	email: yup.string().email('Correo inválido').required('Correo es requerido'),
@@ -24,23 +23,10 @@ export default function LoginForm() {
 	const onSubmit = async (value: { email: string; password: string }) => {
 		try {
 			const response = await authenticate(value);
-			let tokenStored = localStorage.getItem('token') || '';
-			const decodedToken = jwt.decode(tokenStored) as JwtPayload;
-			if (tokenStored && decodedToken.exp) {
-				const TimeToken = new Date(decodedToken.exp * 1000).getTime();
-				const TimeActual = new Date().getTime();
-				console.log(TimeToken, TimeActual);
 
-				if (TimeToken < TimeActual) {
-					tokenStored = '';
-				}
-			}
 			login(response);
-			if (tokenStored) {
-				router.back();
-			} else {
-				router.replace('/dashboard');
-			}
+
+			router.replace('/dashboard');
 		} catch (error) {
 			if (error instanceof Error) alert(error.message);
 		}

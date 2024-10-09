@@ -36,8 +36,6 @@ export default function EditBookForm({
 			photoUrl,
 		};
 
-		console.log(bookEdith);
-
 		if (JSON.stringify(bookEdith) === JSON.stringify(book)) {
 			const res = confirm(
 				'No se han modificado los datos \n ¿Desea salir de la página?',

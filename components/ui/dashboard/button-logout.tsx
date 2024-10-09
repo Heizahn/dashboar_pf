@@ -8,8 +8,19 @@ export default function ButtonLogout() {
 	const router = useRouter();
 
 	const handlerLogout = () => {
-		logout();
-		router.push('/');
+		fetch('/api/auth/logout', {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${localStorage.getItem('token')}`,
+			},
+		})
+			.then((res) => res.json())
+			.then((data) => {
+				alert(data.message);
+				logout();
+				router.push('/');
+			});
 	};
 	return (
 		<button

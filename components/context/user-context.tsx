@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { DecodedToken } from '../lib/utils';
 import jwt from 'jsonwebtoken';
+
 import { IUser } from '../lib/definitions';
 
 interface UserContextProps {
