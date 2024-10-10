@@ -23,6 +23,7 @@ export interface IUserTable {
 	registration_date: string;
 	isConfirmed: boolean;
 	isBanned: boolean;
+	isAdmin: boolean;
 }
 
 export interface IBookDTO {

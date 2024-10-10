@@ -10,17 +10,20 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { editUserSchema, IUserTable } from '@/components/lib/definitions';
 import { API_URL } from '@/components/config/ENV';
 import { useRouter } from 'next/navigation';
+import { AdminUser } from '@/components/ui/users/buttons';
 
 export default function EditBookForm({ user, isView }: { user: IUserTable; isView: boolean }) {
 	const [photoUrl, setPhotoUrl] = useState<string>(user.photoUrl);
 	const [errorImgUrl, setErrorImgUrl] = useState(false);
 	const [isBanned, setIsBanned] = useState(user.isBanned);
+	const [isAdmin, setIsAdmin] = useState(user.isAdmin);
 	const router = useRouter();
 
 	const handlerSubmit = async (values: IUserTable) => {
 		const userEdit = {
 			...values,
 			isBanned,
+			isAdmin,
 			photoUrl,
 		};
 
@@ -212,9 +215,6 @@ export default function EditBookForm({ user, isView }: { user: IUserTable; isVie
 								<div>
 									{!isView ? (
 										<div className='flex flex-row items-center gap-4 ml-20'>
-											<p className='text-gray-500'>
-												{user.isBanned ? 'Si' : 'No'}
-											</p>
 											<button
 												className=''
 												type='button'
@@ -246,6 +246,49 @@ export default function EditBookForm({ user, isView }: { user: IUserTable; isVie
 										<p className='text-gray-500 ml-16'>
 											{user.isBanned ? 'Si' : 'No'}
 										</p>
+									)}
+								</div>
+							</div>
+							<div className='flex flex-row items-center justify-between w-fit'>
+								<label
+									htmlFor='isAdmin'
+									className=' block text-sm font-medium'
+								>
+									{user.isAdmin ? 'Usuario Admin' : 'Dar Admin a Usuario'}
+								</label>
+
+								<div>
+									{!isView ? (
+										<button
+											className='ml-20'
+											type='button'
+											onClick={() => {
+												setIsAdmin(!isAdmin);
+											}}
+										>
+											<AdminUser
+												id={user.user_id}
+												isAdmin={user.isAdmin}
+											/>
+										</button>
+									) : (
+										<div
+											className={`flex flex-row items-center gap-8 ${
+												user.isAdmin ? 'ml-4' : 'ml-0'
+											}`}
+										>
+											<p
+												className={`text-gray-500 ${
+													user.isAdmin ? 'ml-16' : 'ml-10'
+												}`}
+											>
+												{user.isAdmin ? 'Si' : 'No'}
+											</p>
+											<AdminUser
+												id={user.user_id}
+												isAdmin={user.isAdmin}
+											/>
+										</div>
 									)}
 								</div>
 							</div>

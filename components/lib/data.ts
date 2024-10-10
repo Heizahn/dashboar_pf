@@ -91,9 +91,9 @@ export async function fetchTotalUsers() {
 }
 
 export async function fetchFilteredUsers(query: string, currentPage: number) {
+	noStore();
 	const cookiesStore = cookies();
 	const token = cookiesStore.get('token')?.value;
-	noStore();
 	const data = await fetch(
 		`${API_URL}/users/search?name=${query}&email=${query}&page=${currentPage}&limit=${ITEMS_PER_PAGE}`,
 		{

@@ -115,7 +115,10 @@ export default async function BooksTable({
 										<div className='flex justify-end gap-3'>
 											<ViewUser id={user.user_id} />
 											<UpdateUser id={user.user_id} />
-											<BanedUser id={user.user_id} />
+											<BanedUser
+												id={user.user_id}
+												isBanned={user.isBanned}
+											/>
 										</div>
 									</td>
 								</tr>
