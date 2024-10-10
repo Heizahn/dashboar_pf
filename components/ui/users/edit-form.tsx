@@ -11,6 +11,7 @@ import { editUserSchema, IUserTable } from '@/components/lib/definitions';
 import { API_URL } from '@/components/config/ENV';
 import { useRouter } from 'next/navigation';
 import { AdminUser } from '@/components/ui/users/buttons';
+import { toast } from 'react-toastify';
 
 export default function EditBookForm({ user, isView }: { user: IUserTable; isView: boolean }) {
 	const [photoUrl, setPhotoUrl] = useState<string>(user.photoUrl);
@@ -32,7 +33,7 @@ export default function EditBookForm({ user, isView }: { user: IUserTable; isVie
 				'No se han modificado los datos \n ¿Desea salir de la página?',
 			);
 			if (res) {
-				return router.push('/dashboard/books');
+				return router.push('/dashboard/user');
 			}
 
 			return;
@@ -49,10 +50,11 @@ export default function EditBookForm({ user, isView }: { user: IUserTable; isVie
 		});
 
 		if (res.ok) {
-			alert('Usuario editado correctamente');
+			toast.success('Usuario editado correctamente');
 			router.push('/dashboard/users/' + user.user_id);
+			router.refresh();
 		} else {
-			alert('Error al guardar cambios');
+			toast.error('Error al guardar cambios');
 		}
 	};
 
@@ -259,9 +261,8 @@ export default function EditBookForm({ user, isView }: { user: IUserTable; isVie
 
 								<div>
 									{!isView ? (
-										<button
-											className='ml-20'
-											type='button'
+										<div
+											className={` ${user.isAdmin ? 'ml-20' : 'ml-10'}`}
 											onClick={() => {
 												setIsAdmin(!isAdmin);
 											}}
@@ -270,13 +271,9 @@ export default function EditBookForm({ user, isView }: { user: IUserTable; isVie
 												id={user.user_id}
 												isAdmin={user.isAdmin}
 											/>
-										</button>
+										</div>
 									) : (
-										<div
-											className={`flex flex-row items-center gap-8 ${
-												user.isAdmin ? 'ml-4' : 'ml-0'
-											}`}
-										>
+										<div>
 											<p
 												className={`text-gray-500 ${
 													user.isAdmin ? 'ml-16' : 'ml-10'
@@ -284,10 +281,6 @@ export default function EditBookForm({ user, isView }: { user: IUserTable; isVie
 											>
 												{user.isAdmin ? 'Si' : 'No'}
 											</p>
-											<AdminUser
-												id={user.user_id}
-												isAdmin={user.isAdmin}
-											/>
 										</div>
 									)}
 								</div>

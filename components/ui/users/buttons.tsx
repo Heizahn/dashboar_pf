@@ -11,6 +11,7 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 // import { deleteInvoice } from '@/app/lib/actions/actions';
 
 export function ViewUser({ id }: { id: number }) {
@@ -38,7 +39,11 @@ export function UpdateUser({ id }: { id: number }) {
 export function BanedUser({ id, isBanned }: { id: number; isBanned: boolean }) {
 	const router = useRouter();
 	const handlerBanedUser = async () => {
-		const res = confirm(`¿Estás seguro de que quieres banear a este usuario?`);
+		const res = confirm(
+			`¿Estás seguro de que quieres ${
+				isBanned ? 'desbanear' : 'banear'
+			} a este usuario?`,
+		);
 
 		if (!res) return null;
 		const token = localStorage.getItem('token') || '';
@@ -50,8 +55,8 @@ export function BanedUser({ id, isBanned }: { id: number; isBanned: boolean }) {
 			},
 		});
 
-		if (!response.ok) return alert('Error al banear el usuario');
-		alert('Usuario baneado correctamente');
+		if (!response.ok) return toast.error('Error al banear el usuario');
+		toast.success(`${isBanned ? 'Usuario baneado' : 'Usuario desbaneado'} correctamente`);
 		return router.refresh();
 	};
 
@@ -65,7 +70,9 @@ export function BanedUser({ id, isBanned }: { id: number; isBanned: boolean }) {
 export function AdminUser({ id, isAdmin }: { id: number; isAdmin: boolean }) {
 	const router = useRouter();
 	const handlerAdminUser = async () => {
-		const res = confirm(`¿Estás seguro de que quieres dar admin a este usuario?`);
+		const res = confirm(
+			`¿Estás seguro de que quieres ${isAdmin ? 'quitar' : 'dar'} admin a este usuario?`,
+		);
 
 		if (!res) return null;
 		const token = localStorage.getItem('token') || '';
@@ -77,8 +84,9 @@ export function AdminUser({ id, isAdmin }: { id: number; isAdmin: boolean }) {
 			},
 		});
 
-		if (!response.ok) return alert('Error al dar admin a este usuario');
-		alert('Usuario admin correctamente');
+		if (!response.ok) return toast.error('Error al dar admin a este usuario');
+
+		toast.success(`Usuario ${isAdmin ? 'ya no es admin' : 'es admin'}`);
 		return router.refresh();
 	};
 

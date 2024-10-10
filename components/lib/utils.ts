@@ -39,6 +39,8 @@ export const authenticate = async (values: { email: string; password: string }) 
 	if (response.ok) {
 		const data = await response.json();
 		return data.token;
+	} else {
+		return null;
 	}
 
 	throw new Error('Usuario o contraseña incorrectos');

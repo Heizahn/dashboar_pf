@@ -2,6 +2,7 @@
 import { PowerIcon } from '@heroicons/react/24/outline';
 import { useUserContext } from '@/components/context/user-context';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 export default function ButtonLogout() {
 	const { logout } = useUserContext();
@@ -17,9 +18,9 @@ export default function ButtonLogout() {
 		})
 			.then((res) => res.json())
 			.then((data) => {
-				alert(data.message);
 				logout();
 				router.push('/');
+				toast.success(data.message);
 			});
 	};
 	return (

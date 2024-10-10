@@ -9,6 +9,7 @@ import * as yup from 'yup';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUserContext } from '../context/user-context';
+import { Slide, toast } from 'react-toastify';
 
 const loginSchema = yup.object({
 	email: yup.string().email('Correo inválido').required('Correo es requerido'),
@@ -23,12 +24,26 @@ export default function LoginForm() {
 	const onSubmit = async (value: { email: string; password: string }) => {
 		try {
 			const response = await authenticate(value);
-
-			login(response);
-
-			router.replace('/dashboard');
+			if (response) {
+				login(response);
+				router.replace('/dashboard');
+				toast.success('Sesión iniciada correctamente');
+			} else {
+				toast.error('Error al iniciar sesión');
+			}
 		} catch (error) {
-			if (error instanceof Error) alert(error.message);
+			if (error instanceof Error)
+				toast.error(error.message, {
+					position: 'top-right',
+					autoClose: 3000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+					theme: 'dark',
+					transition: Slide,
+				});
 		}
 	};
 	return (

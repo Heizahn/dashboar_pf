@@ -1,4 +1,4 @@
-import { BanedUser, UpdateUser, ViewUser } from '@/components/ui/users/buttons';
+import { AdminUser, BanedUser, UpdateUser, ViewUser } from '@/components/ui/users/buttons';
 import { formatDate } from '@/components/lib/utils';
 import { IUserTable } from '@/components/lib/definitions';
 import { fetchFilteredUsers } from '@/components/lib/data';
@@ -118,6 +118,10 @@ export default async function BooksTable({
 											<BanedUser
 												id={user.user_id}
 												isBanned={user.isBanned}
+											/>
+											<AdminUser
+												id={user.user_id}
+												isAdmin={user.isAdmin}
 											/>
 										</div>
 									</td>

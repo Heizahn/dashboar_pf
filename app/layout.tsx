@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
 import UserProvider from '@/components/context/user-context';
 import './globals.css';
+import ToastProvider from '@/components/context/toast';
 
 const roboto = Roboto({ weight: ['300', '400', '700'], subsets: ['latin'] });
 
@@ -18,7 +19,9 @@ export default function RootLayout({
 	return (
 		<html lang='en'>
 			<UserProvider>
-				<body className={`${roboto} antialiased`}>{children}</body>
+				<body className={`${roboto} antialiased`}>
+					<ToastProvider>{children}</ToastProvider>
+				</body>
 			</UserProvider>
 		</html>
 	);
