@@ -3,7 +3,7 @@ import Search from '@/components/ui/search';
 import Table from '@/components/ui/books/table';
 import { CreateBook } from '@/components/ui/books/buttons';
 import { fetchTotalPageBooks } from '@/components/lib/data';
-import { InvoicesTableSkeleton } from '@/components/ui/skeletons';
+import { BooksTableSkeleton } from '@/components/ui/skeletons';
 import { Suspense } from 'react';
 
 export default async function Page({
@@ -29,7 +29,7 @@ export default async function Page({
 				<Search placeholder='Buscar Libro...' />
 				<CreateBook />
 			</div>
-			<Suspense key={'' + 1} fallback={<InvoicesTableSkeleton />}>
+			<Suspense key={'' + 1} fallback={<BooksTableSkeleton />}>
 				<Table query={query} currentPage={currentPage} />
 			</Suspense>
 			<div className='mt-5 flex w-full justify-center'>

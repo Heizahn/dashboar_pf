@@ -2,6 +2,8 @@ import FormUserEdit from '@/components/ui/users/edit-form';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 import { fetchGetUserById } from '@/components/lib/data';
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
+import { UserSkeleton } from '@/components/ui/users/skeleton';
 
 export default async function Page({ params }: { params: { id: string } }) {
 	const id = params.id;
@@ -23,7 +25,9 @@ export default async function Page({ params }: { params: { id: string } }) {
 					},
 				]}
 			/>
-			<FormUserEdit user={user} isView={false} />
+			<Suspense fallback={<UserSkeleton />}>
+				<FormUserEdit user={user} isView={false} />
+			</Suspense>
 		</main>
 	);
 }
