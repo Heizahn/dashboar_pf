@@ -10,6 +10,7 @@ import { API_URL } from '@/components/config/ENV';
 import { CldUploadWidget } from 'next-cloudinary';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 export default function CreateBookForm({ categories }) {
 	const defaultImgUrl =
@@ -39,10 +40,10 @@ export default function CreateBookForm({ categories }) {
 		});
 
 		if (res.ok) {
-			alert('Libro subido correctamente');
+			toast.success('Libro subido correctamente');
 			router.push('/dashboard/books');
 		} else {
-			alert('Error al subir libro');
+			toast.error('Error al subir libro');
 		}
 	};
 

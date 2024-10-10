@@ -8,16 +8,20 @@ export async function fetchTotalPageBooks(query: string) {
 	noStore();
 	const cookiesStore = cookies();
 	const token = cookiesStore.get('token')?.value;
-	const data = await fetch(`${API_URL}/books/total?title=${query}&author=${query}`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${token}`,
+	console.log(query);
+	const data = await fetch(
+		`${API_URL}/books/filter?title=${query}&author=${query}&limit=${1000}`,
+		{
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
 		},
-	});
+	);
 
 	const total = await data.json();
-	const totalPages = Math.ceil(total / ITEMS_PER_PAGE);
+	const totalPages = Math.ceil(total.length / ITEMS_PER_PAGE);
 	return totalPages;
 }
 
@@ -72,18 +76,21 @@ export async function fetchGetBookById(id: string) {
 	return book;
 }
 
-export async function fetchTotalUsers() {
+export async function fetchTotalUsers(query: string) {
 	noStore();
 
 	const cookiesStore = cookies();
 	const token = cookiesStore.get('token')?.value;
-	const data = await fetch(`${API_URL}/users/`, {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${token}`,
+	const data = await fetch(
+		`${API_URL}/users/search?name=${query}&email=${query}&limit=${1000}`,
+		{
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
 		},
-	});
+	);
 
 	const total = await data.json();
 	const totalPages = Math.ceil(total.length / ITEMS_PER_PAGE);
@@ -105,7 +112,6 @@ export async function fetchFilteredUsers(query: string, currentPage: number) {
 		},
 	);
 	const users = await data.json();
-
 	return users;
 }
 

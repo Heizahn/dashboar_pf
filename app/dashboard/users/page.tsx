@@ -17,7 +17,7 @@ export default async function Page({
 
 	const currentPage = Number(searchParams?.page) || 1;
 
-	const totalPages = await fetchTotalUsers();
+	const totalPages = await fetchTotalUsers(query);
 
 	return (
 		<>

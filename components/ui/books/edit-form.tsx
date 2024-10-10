@@ -11,6 +11,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { createBookSchema } from '@/components/lib/definitions';
 import { API_URL } from '@/components/config/ENV';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 export default function EditBookForm({
 	book,
@@ -59,10 +60,10 @@ export default function EditBookForm({
 		});
 
 		if (res.ok) {
-			alert('Libro editado correctamente');
-			router.push('/dashboard/books/' + book.book_id);
+			toast.success('Libro editado correctamente');
+			return router.push('/dashboard/books/' + book.book_id);
 		} else {
-			alert('Error al editar libro');
+			toast.error('Error al editar libro');
 		}
 	};
 
