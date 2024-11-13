@@ -34,7 +34,9 @@ export default async function BooksTable({
 								</div>
 								<div className='flex w-full items-center justify-between pt-4'>
 									<div>
-										<p className='text-xl font-medium'>{user.photoUrl}</p>
+										<p className='text-xl font-medium'>
+											{user.photoUrl ? user.photoUrl : 'No foto'}
+										</p>
 									</div>
 								</div>
 							</div>
@@ -74,7 +76,7 @@ export default async function BooksTable({
 										<div className='flex items-center justify-center'>
 											<div className='relative object-contain w-12 h-12 rounded-full'>
 												<Image
-													src={user.photoUrl}
+													src={user.photoUrl || ''}
 													alt='Foto de usuario'
 													fill={true}
 													priority={true}
