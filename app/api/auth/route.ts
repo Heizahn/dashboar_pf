@@ -1,4 +1,5 @@
 import { API_URL } from '@/components/config/ENV';
+import { DecodedToken } from '@/components/lib/utils';
 import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
@@ -13,6 +14,15 @@ export async function POST(req: Request) {
 
 	if (res.ok) {
 		const data = await res.json();
+
+		const decodedToken = DecodedToken(data.token);
+
+		if (!decodedToken.isAdmin) {
+			return new Response(JSON.stringify({ message: 'No tienes permisos' }), {
+				status: 401,
+				statusText: 'Unauthorized',
+			});
+		}
 
 		return new Response(JSON.stringify(data), {
 			headers: {
